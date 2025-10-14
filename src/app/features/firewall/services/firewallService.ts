@@ -10,7 +10,7 @@ import { environment } from '../../../../environments/environment';
 export class FirewallService {
   http = inject(HttpClient);
 
-  addNewFireWall(fireWall: Firewall) {
+  addNewFirewall(fireWall: Firewall) {
     return this.http.post(`${environment.apiURL}/firewalls`, fireWall);
   }
 
