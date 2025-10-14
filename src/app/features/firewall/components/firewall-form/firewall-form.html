@@ -1,0 +1,4 @@
+<form [formGroup]="firewallForm" (ngSubmit)="createFirewall()">
+    <input type="text" placeholder="Nom du firewall" formControlName="name">
+    <button type="submit" [disabled]="firewallForm.invalid">Nouveau Firewall</button>
+</form>
