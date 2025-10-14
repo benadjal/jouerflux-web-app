@@ -1,6 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +8,4 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('jouerflux-web-app');
 }
