@@ -1,3 +1,5 @@
 @for (firewall of firewallList$ | async; track firewall.id) {
     <p> <span>{{firewall.id}}</span> {{firewall.name}}</p>
 }
+
+<app-firewall-form></app-firewall-form>

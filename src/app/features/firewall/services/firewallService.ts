@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Firewall, FirewallListResponse } from '../models/firewall.model';
-import { map, Observable} from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -10,8 +10,13 @@ import { environment } from '../../../../environments/environment';
 export class FirewallService {
   http = inject(HttpClient);
 
-  addNewFirewall(fireWall: Firewall) {
-    return this.http.post(`${environment.apiURL}/firewalls`, fireWall);
+  refreshTrigger$$ = new BehaviorSubject<void>(undefined);
+
+  addNewFirewall(fireWall: Omit<Firewall, 'id'>): Observable<Firewall> {
+    return this.http.post<Firewall>(
+      `${environment.apiURL}/firewalls`,
+      fireWall,
+    );
   }
 
   getAllFirewalls(): Observable<Firewall[]> {
@@ -23,5 +28,9 @@ export class FirewallService {
             firewallResponseApi.items,
         ),
       );
+  }
+
+  refresh() {
+    this.refreshTrigger$$.next();
   }
 }
