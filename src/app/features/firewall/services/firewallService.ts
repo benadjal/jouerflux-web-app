@@ -30,6 +30,10 @@ export class FirewallService {
       );
   }
 
+  deleteFirewalls(firewallId: number) {
+    return this.http.delete(`${environment.apiURL}/firewalls/${firewallId}`);
+  }
+
   refresh() {
     this.refreshTrigger$$.next();
   }

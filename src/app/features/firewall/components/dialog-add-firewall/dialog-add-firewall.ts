@@ -46,9 +46,8 @@ export class DialogAddFirewall {
       this.firewallService
         .addNewFirewall(this.firewallForm.getRawValue())
         .subscribe({
-          next: (newFirewall : Firewall) => {
+          next: (newFirewall: Firewall) => {
             this.firewallService.refresh();
-            this.closeDialog();
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
@@ -62,8 +61,10 @@ export class DialogAddFirewall {
               summary: 'Erreur',
               detail: error.error.message,
               life: 3000,
-            });          },
+            });
+          },
         });
+      this.closeDialog();
     }
   }
 

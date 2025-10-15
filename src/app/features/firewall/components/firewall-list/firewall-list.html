@@ -2,28 +2,30 @@
   @if (firewallList$ | async; as firewall) {
     <div
       class="flex justify-content-between align-items-center mx-auto"
-      style="width: 100%; max-width: 45rem"
+      style="width: 100%; max-width: 60rem"
     >
       <div class="title">
-        <p class="text-lg font-bold text-2xl">Firewalls</p>
+        <p class="text-lg font-bold text-4xl">Firewalls</p>
       </div>
 
       <div class="">
         <p-button
-          label="Créer Firewall"
+          label="Créer un Firewall"
           severity="primary"
+          size="large"
           (onClick)="showDialog()"
         />
       </div>
     </div>
 
     @if (firewall.length > 0) {
-      <div class="mx-auto" style="width: 100%; max-width: 45rem">
+      <div class="mx-auto" style="width: 100%; max-width: 60rem">
         <p-table [value]="firewall" style="width: 100%">
           <ng-template #header>
             <tr>
               <th>ID</th>
               <th>Firewall Name</th>
+              <th style="width: 2rem"></th>
               <th style="width: 2rem"></th>
             </tr>
           </ng-template>
@@ -40,6 +42,14 @@
               <td>
                 <p-button icon="pi pi-search" severity="secondary" rounded />
               </td>
+              <td>
+                <p-button
+                  icon="pi pi-trash"
+                  severity="danger"
+                  rounded
+                  (click)="confirmDelete($event,firewall)"
+                />
+              </td>
             </tr>
           </ng-template>
         </p-table>
@@ -47,11 +57,7 @@
     } @else {
       <div class="no-firewalls flex flex-column mt-6">
         <div class="no-firewalls-text mx-auto">
-          <p
-            class="text-2xl font-bold"
-          >
-            Vous n'avez pas encore de firewall
-          </p>
+          <p class="text-2xl font-bold">Vous n'avez pas encore de firewall</p>
         </div>
 
         <div class="mx-auto">
@@ -66,6 +72,9 @@
     }
   }
 </div>
+
+<p-toast />
+<p-confirmdialog />
 
 <app-dialog-add-firewall
   [visible]="openDialog"
