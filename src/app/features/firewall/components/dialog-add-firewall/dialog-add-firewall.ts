@@ -12,6 +12,7 @@ import {
 import { MessageService } from 'primeng/api';
 import { MessageModule } from 'primeng/message';
 import { Firewall } from '../../models/firewall.model';
+import { SharedService } from '../../../../shared/services/shared-service';
 
 @Component({
   selector: 'app-dialog-add-firewall',
@@ -34,6 +35,8 @@ export class DialogAddFirewall {
 
   messageService = inject(MessageService);
 
+  sharedService = inject(SharedService);
+
   firewallForm = new FormGroup({
     name: new FormControl('', {
       nonNullable: true,
@@ -47,7 +50,7 @@ export class DialogAddFirewall {
         .addNewFirewall(this.firewallForm.getRawValue())
         .subscribe({
           next: (newFirewall: Firewall) => {
-            this.firewallService.refresh();
+            this.sharedService.refresh();
             this.messageService.add({
               severity: 'success',
               summary: 'Success',

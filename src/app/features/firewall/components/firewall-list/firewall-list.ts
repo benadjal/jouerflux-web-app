@@ -11,6 +11,7 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Firewall } from '../../models/firewall.model';
+import { SharedService } from '../../../../shared/services/shared-service';
 
 @Component({
   selector: 'app-firewall-list',
@@ -22,8 +23,7 @@ import { Firewall } from '../../models/firewall.model';
     BadgeModule,
     DialogAddFirewall,
     ConfirmDialog,
-    ToastModule,
-    ButtonModule,
+    ToastModule
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './firewall-list.html',
@@ -34,11 +34,13 @@ export class FirewallList {
 
   fireWallService = inject(FirewallService);
 
+  sharedService = inject(SharedService)
+
   confirmationService = inject(ConfirmationService);
 
   messageService = inject(MessageService);
 
-  firewallList$ = this.fireWallService.refreshTrigger$$.pipe(
+  firewallList$ = this.sharedService.refreshTrigger$$.pipe(
     switchMap(() => this.fireWallService.getAllFirewalls()),
   );
 
@@ -75,7 +77,7 @@ export class FirewallList {
               summary: 'Suppression confirmée',
               detail: `Le firewall ${fireWall.name} a bien été supprimé`,
             });
-            this.fireWallService.refresh();
+            this.sharedService.refresh();
           },
           error: (err) => {
             console.error(err);
