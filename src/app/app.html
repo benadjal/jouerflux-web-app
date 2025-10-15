@@ -1,3 +1,13 @@
 <p-toast />
-<app-toolbar></app-toolbar>
-<router-outlet />
+
+<div class="flex flex-column h-screen">
+  <app-toolbar></app-toolbar>
+  <div class="flex h-full flex-wrap">
+    <div class="flex-1 md:flex-none">
+      <app-side-bar></app-side-bar>
+    </div>
+    <div class="flex-1 bg-surface-100">
+      <router-outlet />
+    </div>
+  </div>
+</div>

@@ -1,14 +1,14 @@
 <div class="flex flex-column justify-content-center">
   @if (firewallList$ | async; as firewall) {
     <div
-      class="flex justify-content-between align-items-center my-2 mx-auto"
+      class="flex justify-content-between align-items-center mx-auto"
       style="width: 100%; max-width: 45rem"
     >
       <div class="title">
-        <p class="m-2 text-lg font-bold text-2xl">Firewalls</p>
+        <p class="text-lg font-bold text-2xl">Firewalls</p>
       </div>
 
-      <div class="m-2">
+      <div class="">
         <p-button
           label="Créer Firewall"
           severity="primary"
@@ -18,7 +18,7 @@
     </div>
 
     @if (firewall.length > 0) {
-      <div class="my-3 mx-auto" style="width: 100%; max-width: 45rem">
+      <div class="mx-auto" style="width: 100%; max-width: 45rem">
         <p-table [value]="firewall" style="width: 100%">
           <ng-template #header>
             <tr>
@@ -54,7 +54,7 @@
           </p>
         </div>
 
-        <div class="add-btn mx-auto">
+        <div class="mx-auto">
           <p-button
             label="Créer un nouveau firewall"
             class="align-items-center justify-content-center"
