@@ -1,49 +1,73 @@
 <div class="flex flex-column justify-content-center">
   @if (firewallList$ | async; as firewall) {
-
     <div
       class="flex justify-content-between align-items-center my-2 mx-auto"
-      style="width: 100%; max-width: 45rem;"
+      style="width: 100%; max-width: 45rem"
     >
       <div class="title">
         <p class="m-2 text-lg font-bold text-2xl">Firewalls</p>
       </div>
 
-      <div class="add-btn m-2">
-        <p-button label="Add Firewall" severity="primary" />
+      <div class="m-2">
+        <p-button
+          label="Créer Firewall"
+          severity="primary"
+          (onClick)="showDialog()"
+        />
       </div>
     </div>
 
-    <div
-      class="my-3 mx-auto"
-      style="width: 100%; max-width: 45rem;"
-    >
-      <p-table [value]="firewall" style="width: 100%;">
-        <ng-template #header>
-          <tr>
-            <th>ID</th>
-            <th>Firewall Name</th>
-            <th style="width: 2rem"></th>
-          </tr>
-        </ng-template>
-        <ng-template #body let-firewall>
-          <tr>
-            <td>
-              <p-badge
-                [value]="firewall.id"
-                badgeSize="large"
-                severity="success"
-              />
-            </td>
-            <td><p-chip [label]="firewall.name" /></td>
-            <td>
-              <p-button icon="pi pi-search" severity="secondary" rounded />
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
+    @if (firewall.length > 0) {
+      <div class="my-3 mx-auto" style="width: 100%; max-width: 45rem">
+        <p-table [value]="firewall" style="width: 100%">
+          <ng-template #header>
+            <tr>
+              <th>ID</th>
+              <th>Firewall Name</th>
+              <th style="width: 2rem"></th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-firewall>
+            <tr>
+              <td>
+                <p-badge
+                  [value]="firewall.id"
+                  badgeSize="large"
+                  severity="success"
+                />
+              </td>
+              <td><p-chip [label]="firewall.name" /></td>
+              <td>
+                <p-button icon="pi pi-search" severity="secondary" rounded />
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    } @else {
+      <div class="no-firewalls flex flex-column mt-6">
+        <div class="no-firewalls-text mx-auto">
+          <p
+            class="text-2xl font-bold"
+          >
+            Vous n'avez pas encore de firewall
+          </p>
+        </div>
+
+        <div class="add-btn mx-auto">
+          <p-button
+            label="Créer un nouveau firewall"
+            class="align-items-center justify-content-center"
+            severity="primary"
+            (onClick)="showDialog()"
+          />
+        </div>
+      </div>
+    }
   }
 </div>
 
-<app-firewall-form></app-firewall-form>
+<app-dialog-add-firewall
+  [visible]="openDialog"
+  (triggerCloseDialog)="closeDialog()"
+></app-dialog-add-firewall>
