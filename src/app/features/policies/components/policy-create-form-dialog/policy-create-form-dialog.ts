@@ -15,12 +15,9 @@ import { Policy } from '../../models/policy.model';
 import { SharedService } from '../../../../shared/services/shared-service';
 import { MessageService } from 'primeng/api';
 import { PolicyService } from '../../services/policy-service';
-import {
-  AutoCompleteCompleteEvent,
-  AutoCompleteModule,
-} from 'primeng/autocomplete';
 import { AsyncPipe } from '@angular/common';
 import { Firewall } from '../../../firewall/models/firewall.model';
+import { SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'app-policy-create-form-dialog',
@@ -30,9 +27,9 @@ import { Firewall } from '../../../firewall/models/firewall.model';
     InputTextModule,
     ReactiveFormsModule,
     MessageModule,
-    AutoCompleteModule,
     AsyncPipe,
     FormsModule,
+    SelectModule
   ],
   templateUrl: './policy-create-form-dialog.html',
   styleUrl: './policy-create-form-dialog.scss',
@@ -62,17 +59,13 @@ export class DialogAddPolicy {
     }),
   });
 
-  filterFirewalls(event: AutoCompleteCompleteEvent, firewalls: Firewall[]) {
-    console.log(event);
-    const query = event.query?.toLowerCase() ?? '';
-    this.filteredFirewalls = firewalls.filter((f) =>
-      f.name.toLowerCase().includes(query),
-    );
-  }
+  selectedCountry = "";
 
   createPolicie() {
     this.policyForm.markAllAsTouched();
     if (this.policyForm.invalid) return;
+
+    console.log(this.policyForm)
 
     this.policyService.createPolicy(this.policyForm.getRawValue()).subscribe({
       next: (createdPolicy: Policy) => {
