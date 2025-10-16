@@ -9,10 +9,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { MessageModule } from 'primeng/message';
 import { Firewall } from '../../models/firewall.model';
 import { SharedService } from '../../../../shared/services/shared-service';
+import { PolicyService } from '../../../policies/services/policy-service';
 
 @Component({
   selector: 'app-firewall-create-form-dialog',
@@ -31,10 +32,13 @@ export class DialogAddFirewall {
   @Output() triggerCloseDialog = new EventEmitter();
 
   firewallService = inject(FirewallService);
+  policiesService = inject(PolicyService);
 
   messageService = inject(MessageService);
 
   sharedService = inject(SharedService);
+
+  confirmationService = inject(ConfirmationService);
 
   firewallForm = new FormGroup({
     name: new FormControl('', {
@@ -70,6 +74,8 @@ export class DialogAddFirewall {
         },
       });
   }
+
+
 
   closeDialog() {
     this.firewallForm.reset();

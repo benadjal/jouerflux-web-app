@@ -69,6 +69,7 @@
                 />
                 <p-button
                   icon="pi pi-trash"
+                  (onClick)="confirmDelete($event,policy)"
                   severity="danger"
                   rounded
                 />
@@ -95,3 +96,6 @@
     </div>
   </div>
 }
+
+<p-toast />
+<p-confirmdialog />
