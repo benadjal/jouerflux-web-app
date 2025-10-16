@@ -1,8 +1,17 @@
-<p-menubar>
+<p-menubar [model]="items">
   <ng-template pTemplate="start">
     <div class="logo flex items-center">
       <img src="assets/logo.png" alt="logo" />
     </div>
+  </ng-template>
+
+  <ng-template pTemplate="item" let-item let-root="root">
+    <a class="text-7xl" [routerLink]="item.routerLink">
+      @if (item.icon) {
+        <i [class]="item.icon"></i>
+      }
+      <span>{{ item.label }}</span>
+    </a>
   </ng-template>
 
   <ng-template pTemplate="end">

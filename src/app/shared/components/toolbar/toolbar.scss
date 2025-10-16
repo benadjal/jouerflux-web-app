@@ -2,3 +2,21 @@ img {
     width: 4rem;
     cursor: pointer;
 }
+
+
+:host ::ng-deep .p-menubar-button .p-icon {
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
+@media (max-width: 960px) {
+
+    :host ::ng-deep .p-menubar-button {
+        order: 2;
+    }
+
+    .toggle-mode-btn {
+        display: none;
+    }
+
+}

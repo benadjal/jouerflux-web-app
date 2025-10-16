@@ -16,4 +16,31 @@ export const MyPreset = definePreset(Aura, {
       '900': '#00321f',
     },
   },
+  components: {
+    menubar: {
+      mobileButton: {
+        size: '3rem',
+        color: '{primary.600}',
+      },
+
+      colorScheme: {
+        dark: {
+          item: {
+            activeBackground: '{primary.950}',
+          },
+        },
+        light: {
+          item: {
+            activeBackground: '{primary.100}',
+          },
+        },
+      },
+      baseItem: {
+        padding: '1rem',
+      },
+      root: {
+        padding: '0.5rem 2rem',
+      },
+    },
+  },
 });
