@@ -28,19 +28,24 @@
       }
     }
     @if (policies$ | async; as policies) {
-      <p-autoComplete
-        formControlName="policy_id"
-        [suggestions]="filteredPolicies"
-        (completeMethod)="filterPolicies($event, policies)"
-        [dropdown]="true"
-        placeholder="Rechercher une politique"
-        [inputStyle]="{ width: '100%' }"
+      <p-select
+        [options]="policies"
         optionLabel="name"
         optionValue="id"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        placeholder="Séléctionnez une politique"
         [appendTo]="'body'"
         style="width: 100%"
+        formControlName="policy_id"
       >
-      </p-autoComplete>
+        <ng-template #selectedItem let-selectedOption>
+          <div class="flex items-center gap-2">
+            <div>{{ selectedOption.name }}</div>
+          </div>
+        </ng-template>
+      </p-select>
     }
 
     <div class="flex justify-content-end gap-2 mt-2">

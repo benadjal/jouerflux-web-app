@@ -22,6 +22,7 @@ import { SharedService } from '../../../../shared/services/shared-service';
 import { MessageService } from 'primeng/api';
 import { RuleService } from '../../services/rule-service';
 import { Rule } from '../../models/rule.model';
+import { SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'app-rule-create-form-dialog',
@@ -34,6 +35,7 @@ import { Rule } from '../../models/rule.model';
     AutoCompleteModule,
     AsyncPipe,
     FormsModule,
+    SelectModule
   ],
   templateUrl: './rule-create-form-dialog.html',
   styleUrl: './rule-create-form-dialog.scss',

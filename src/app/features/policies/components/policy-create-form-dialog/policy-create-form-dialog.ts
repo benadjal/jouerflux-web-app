@@ -58,9 +58,7 @@ export class DialogAddPolicy {
       validators: [Validators.required],
     }),
   });
-
-  selectedCountry = "";
-
+  
   createPolicie() {
     this.policyForm.markAllAsTouched();
     if (this.policyForm.invalid) return;
