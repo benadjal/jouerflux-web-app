@@ -33,17 +33,22 @@
           <ng-template #body let-policy>
             <tr>
               <td>
+                {{ policy.id }}
+              </td>
+              <td>{{ policy.name }}</td>
+              <td>
                 <p-badge
-                  [value]="policy.id"
+                  [value]="policy.firewall_id"
                   badgeSize="large"
-                  severity="success"
                 />
               </td>
-              <td><p-chip [label]="policy.name" /></td>
-              <td><p-chip [label]="policy.firewall_id" /></td>
 
               <td>
-                <p-button icon="pi pi-search-plus" severity="secondary" rounded />
+                <p-button
+                  icon="pi pi-search-plus"
+                  severity="secondary"
+                  rounded
+                />
               </td>
               <td>
                 <p-button

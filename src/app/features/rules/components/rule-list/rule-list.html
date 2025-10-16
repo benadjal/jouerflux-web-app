@@ -32,15 +32,9 @@
           </ng-template>
           <ng-template #body let-rule>
             <tr>
-              <td>
-                <p-badge
-                  [value]="rule.id"
-                  badgeSize="large"
-                  severity="success"
-                />
-              </td>
-              <td><p-chip [label]="rule.name" /></td>
-              <td><p-chip [label]="rule.policy_id" /></td>
+              <td>{{rule.id}}</td>
+              <td>{{rule.name}}</td>
+              <td><p-badge [value]="rule.policy_id" /></td>
 
               <td>
                 <p-button icon="pi pi-search-plus" severity="secondary" rounded />
