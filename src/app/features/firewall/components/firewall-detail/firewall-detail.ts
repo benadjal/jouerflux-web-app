@@ -1,13 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap, tap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import { FirewallService } from '../../services/firewall-service';
 import { AsyncPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
+import { BadgeModule } from 'primeng/badge';
 
 @Component({
   selector: 'app-firewall-detail',
-  imports: [AsyncPipe, ButtonModule],
+  imports: [AsyncPipe, ButtonModule,TableModule,BadgeModule],
   templateUrl: './firewall-detail.html',
   styleUrl: './firewall-detail.scss'
 })
