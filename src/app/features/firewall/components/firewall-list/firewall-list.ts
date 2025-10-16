@@ -51,7 +51,7 @@ export class FirewallList {
   closeDialog() {
     this.openDialog = false;
   }
-
+ 
   confirmDelete(event: Event, fireWall: Firewall) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,

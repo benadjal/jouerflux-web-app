@@ -11,6 +11,7 @@ import { PolicyService } from '../../services/policy-service';
 import { DialogAddPolicy } from '../dialog-add-policy/dialog-add-policy';
 import { SharedService } from '../../../../shared/services/shared-service';
 import { switchMap } from 'rxjs';
+import { Policy } from '../../models/policy.model';
 
 @Component({
   selector: 'app-policie-list',
@@ -47,5 +48,52 @@ export class PolicieList {
 
   closeDialog() {
     this.openDialog = false;
+  }
+
+  confirmDelete(event: Event, policy: Policy) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: `Souhaitez-vous vraiment supprimer :${policy.name} ?`,
+      header: 'Confirmer la supression',
+      icon: 'pi pi-info-circle',
+      rejectLabel: 'Cancel',
+      rejectButtonProps: {
+        label: 'Annuler',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: 'Supprimer',
+        severity: 'danger',
+      },
+
+      accept: () => {
+        this.policiesService.deletePolicy(policy.id).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Suppression confirmée',
+              detail: `La politique ${policy.name} a bien été supprimée`,
+            });
+            this.sharedService.refresh();
+          },
+          error: (err) => {
+            console.error(err);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erreur',
+              detail: `Erreur lors de la suppression de ${policy.name}`,
+            });
+          },
+        });
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Annulé',
+          detail: 'Vous avez annulé la suppression',
+        });
+      },
+    });
   }
 }

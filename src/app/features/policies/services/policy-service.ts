@@ -10,11 +10,8 @@ import { environment } from '../../../../environments/environment';
 export class PolicyService {
   http = inject(HttpClient);
 
-  addNewPolicy(fireWall: Omit<Policy, 'id'>): Observable<Policy> {
-    return this.http.post<Policy>(
-      `${environment.apiURL}/policies`,
-      fireWall,
-    );
+  addNewPolicy(policy: Omit<Policy, 'id'>): Observable<Policy> {
+    return this.http.post<Policy>(`${environment.apiURL}/policies`, policy);
   }
 
   getAllPolicies(): Observable<Policy[]> {
@@ -26,5 +23,9 @@ export class PolicyService {
             firewallResponseApi.items,
         ),
       );
+  }
+
+  deletePolicy(policyId: number) {
+    return this.http.delete(`${environment.apiURL}/policies/${policyId}`);
   }
 }

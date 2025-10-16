@@ -46,7 +46,12 @@
                 <p-button icon="pi pi-search" severity="secondary" rounded />
               </td>
               <td>
-                <p-button icon="pi pi-trash" severity="danger" rounded />
+                <p-button
+                  (click)="confirmDelete($event, policy)"
+                  icon="pi pi-trash"
+                  severity="danger"
+                  rounded
+                />
               </td>
             </tr>
           </ng-template>
