@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Firewall, FirewallListResponse } from '../models/firewall.model';
+import { Firewall, FirewallDetail, FirewallListResponse } from '../models/firewall.model';
 import { map, Observable, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
@@ -28,9 +28,8 @@ export class FirewallService {
     );
   }
 
-  getFirewall(id: number): Observable<Firewall> {
-    console.log("ok");
-    return this.http.get<Firewall>(`${environment.apiURL}/firewalls/${id}`).pipe(
+  getFirewall(id: number): Observable<FirewallDetail> {
+    return this.http.get<FirewallDetail>(`${environment.apiURL}/firewalls/${id}`).pipe(
       tap((res) => console.log(res))
     );
   }

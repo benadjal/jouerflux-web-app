@@ -1,6 +1,12 @@
+import { PolicyDetail } from "../../policies/models/policy.model";
+
 export interface Firewall {
   id: number;
   name: string;
+}
+
+export interface FirewallDetail extends Firewall {
+  policies : PolicyDetail[];
 }
 
 export interface FirewallListResponse {

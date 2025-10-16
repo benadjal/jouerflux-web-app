@@ -1,3 +1,37 @@
 @if (firewall$ | async; as firewall) {
-    {{firewall}}
+  <div class="grid justify-content-center p-2">
+    <div
+      class="col-12 flex justify-content-between align-items-center mb-3"
+      style="max-width: 60rem"
+    >
+      <h3 class="text-2xl font-bold">Détails du Firewall</h3>
+      <p-button label="Modifier" [disabled]="true" class="p-button-outlined p-button-sm"></p-button>
+    </div>
+
+    <div
+      class="col-12 flex flex-wrap justify-content-between gap-3"
+      style="max-width: 60rem"
+    >
+      <div
+        class="col-12 sm:col-4 flex flex-column gap-1 justify-content-center align-items-center border-round p-3 max-w-12rem bg-primary-400"
+      >
+        <small class="font-bold text-center">Nom du firewall</small>
+        <p class="text-lg font-semibold text-center">{{ firewall.name }}</p>
+      </div>
+
+      <div
+        class="col-12 sm:col-4 flex flex-column gap-1 justify-content-center align-items-center border-round   p-3 max-w-12rem bg-primary-400"
+      >
+        <small class="font-bold text-center">Total de politiques</small>
+        <p class="text-3xl font-semibold text-center">{{ firewall.policies.length }}</p>
+      </div>
+
+      <div
+        class="col-12 sm:col-4 flex flex-column gap-1 justify-content-center align-items-center border-round p-3 max-w-12rem bg-primary-400"
+      >
+        <small class="font-bold text-center">Total de règles</small>
+        <p class="text-3xl font-semibold text-center">{{ firewall.totalRules }}</p>
+      </div>
+    </div>
+  </div>
 }
