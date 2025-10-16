@@ -6,6 +6,10 @@
   </ng-template>
 
   <ng-template pTemplate="end">
-    <p-toggleswitch />
+    <p-toggleswitch
+      [(ngModel)]="checked"
+      (ngModelChange)="toggleDarkMode()"
+      class="toggle-mode-btn"
+    />
   </ng-template>
 </p-menubar>
