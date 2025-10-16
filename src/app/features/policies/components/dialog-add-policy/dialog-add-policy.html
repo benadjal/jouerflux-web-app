@@ -4,11 +4,10 @@
   (onHide)="closeDialog()"
   [style]="{ width: '25rem' }"
 >
-  <div class="flex items-center gap-4 mb-4">
     <form
       [formGroup]="policyForm"
       (ngSubmit)="createPolicie()"
-      class="flex-grow-1"
+      class="flex flex-column gap-3"
     >
       <input
         pInputText
@@ -53,8 +52,7 @@
           severity="secondary"
           (click)="closeDialog()"
         />
-        <button pButton type="submit">Créer</button>
+        <button pButton type="submit" [disabled]="policyForm.invalid">Créer</button>
       </div>
     </form>
-  </div>
 </p-dialog>

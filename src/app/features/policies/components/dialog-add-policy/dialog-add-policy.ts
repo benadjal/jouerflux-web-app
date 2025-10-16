@@ -15,7 +15,7 @@ import { Policy } from '../../models/policy.model';
 import { SharedService } from '../../../../shared/services/shared-service';
 import { MessageService } from 'primeng/api';
 import { PolicyService } from '../../services/policy-service';
-import { AutoCompleteModule } from 'primeng/autocomplete';
+import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
 import { AsyncPipe } from '@angular/common';
 import { Firewall } from '../../../firewall/models/firewall.model';
 
@@ -61,17 +61,15 @@ export class DialogAddPolicy {
 
   filteredFirewalls: Firewall[] = [];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  filterFirewalls(event: any, firewalls: Firewall[]) {
+  filterFirewalls(event: AutoCompleteCompleteEvent, firewalls: Firewall[]) {
+    console.log(event);
     const query = event.query?.toLowerCase() ?? '';
     this.filteredFirewalls = firewalls.filter((f) =>
       f.name.toLowerCase().includes(query),
     );
-    console.log(this.filteredFirewalls)
   }
 
   createPolicie() {
-    console.log(this.policyForm)
     if (this.policyForm.valid) {
       this.policyService.addNewPolicy(this.policyForm.getRawValue()).subscribe({
         next: (newPolicy: Policy) => {
