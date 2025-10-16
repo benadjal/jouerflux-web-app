@@ -12,6 +12,7 @@ import { DialogAddPolicy } from '../policy-create-form-dialog/policy-create-form
 import { SharedService } from '../../../../shared/services/shared-service';
 import { switchMap } from 'rxjs';
 import { Policy } from '../../models/policy.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-policie-list',
@@ -24,6 +25,7 @@ import { Policy } from '../../models/policy.model';
     ConfirmDialog,
     ToastModule,
     DialogAddPolicy,
+    RouterLink
   ],
   providers: [ConfirmationService, MessageService],
 
