@@ -15,7 +15,7 @@ import { Policy } from '../../models/policy.model';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-policie-list',
+  selector: 'app-policy-list',
   imports: [
     AsyncPipe,
     TableModule,
@@ -29,8 +29,8 @@ import { RouterLink } from '@angular/router';
   ],
   providers: [ConfirmationService, MessageService],
 
-  templateUrl: './policie-list.html',
-  styleUrl: './policie-list.scss',
+  templateUrl: './policy-list.html',
+  styleUrl: './policy-list.scss',
 })
 export class PolicieList {
   confirmationService = inject(ConfirmationService);
