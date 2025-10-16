@@ -1,5 +1,5 @@
 export interface Policy {
-  firewall_id: number;
+  firewall_id: string;
   id: number;
   name: string;
 }

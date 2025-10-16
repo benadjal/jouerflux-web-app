@@ -8,6 +8,9 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { PolicyService } from '../../services/policy-service';
+import { DialogAddPolicy } from '../dialog-add-policy/dialog-add-policy';
+import { SharedService } from '../../../../shared/services/shared-service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-policie-list',
@@ -19,6 +22,7 @@ import { PolicyService } from '../../services/policy-service';
     BadgeModule,
     ConfirmDialog,
     ToastModule,
+    DialogAddPolicy,
   ],
   providers: [ConfirmationService, MessageService],
 
@@ -29,12 +33,19 @@ export class PolicieList {
   openDialog = false;
 
   confirmationService = inject(ConfirmationService);
-
   messageService = inject(MessageService);
+  policiesService = inject(PolicyService);
+  sharedService = inject(SharedService);
 
-  policiesService = inject(PolicyService)
+  policies$ = this.sharedService.refreshTrigger$$.pipe(
+    switchMap(() => this.policiesService.getAllPolicies()),
+  );
 
-  policies$ = this.policiesService.getAllPolicies();
+  showDialog() {
+    this.openDialog = true;
+  }
 
-  
+  closeDialog() {
+    this.openDialog = false;
+  }
 }

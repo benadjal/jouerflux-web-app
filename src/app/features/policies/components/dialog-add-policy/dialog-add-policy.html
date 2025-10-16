@@ -1,0 +1,60 @@
+<p-dialog
+  header="Ajouter une politique"
+  [(visible)]="visible"
+  (onHide)="closeDialog()"
+  [style]="{ width: '25rem' }"
+>
+  <div class="flex items-center gap-4 mb-4">
+    <form
+      [formGroup]="policyForm"
+      (ngSubmit)="createPolicie()"
+      class="flex-grow-1"
+    >
+      <input
+        pInputText
+        placeholder="Nom de la politique"
+        formControlName="name"
+        style="width: 100%"
+      />
+      @if (
+        policyForm.controls.name.invalid && policyForm.controls.name.touched
+      ) {
+        @if (policyForm.controls.name.hasError("required")) {
+          <p-message severity="error" size="small" variant="simple"
+            >Nom obligatoire</p-message
+          >
+        }
+
+        @if (policyForm.controls.name.hasError("minlength")) {
+          <p-message severity="error" size="small" variant="simple"
+            >Minimum 3 lettres</p-message
+          >
+        }
+      }
+      @if (firewall$ | async; as firewalls) {
+        <p-autoComplete
+          formControlName="firewall_id"
+          [suggestions]="filteredFirewalls"
+          (completeMethod)="filterFirewalls($event, firewalls)"
+          [dropdown]="true"
+          placeholder="Rechercher un firewall"
+          [inputStyle]="{ width: '100%' }"
+          optionLabel="name"
+          optionValue="id"
+          [appendTo]="'body'"
+          style="width: 100%"
+        >
+        </p-autoComplete>
+      }
+
+      <div class="flex justify-content-end gap-2 mt-2">
+        <p-button
+          label="Annuler"
+          severity="secondary"
+          (click)="closeDialog()"
+        />
+        <button pButton type="submit">Créer</button>
+      </div>
+    </form>
+  </div>
+</p-dialog>

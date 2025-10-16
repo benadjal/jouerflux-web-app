@@ -8,11 +8,12 @@
         <p class="text-lg font-bold text-4xl">Policies</p>
       </div>
 
-      <div class="">
+      <div>
         <p-button
           label="Créer une politique"
           severity="primary"
           size="large"
+          (onClick)="showDialog()"
         />
       </div>
     </div>
@@ -22,8 +23,9 @@
         <p-table [value]="policy" style="width: 100%">
           <ng-template #header>
             <tr>
-              <th>ID</th>
+              <th>Policy ID</th>
               <th>Policy Name</th>
+              <th>Firewall Id</th>
               <th style="width: 2rem"></th>
               <th style="width: 2rem"></th>
             </tr>
@@ -38,15 +40,13 @@
                 />
               </td>
               <td><p-chip [label]="policy.name" /></td>
+              <td><p-chip [label]="policy.firewall_id" /></td>
+
               <td>
                 <p-button icon="pi pi-search" severity="secondary" rounded />
               </td>
               <td>
-                <p-button
-                  icon="pi pi-trash"
-                  severity="danger"
-                  rounded
-                />
+                <p-button icon="pi pi-trash" severity="danger" rounded />
               </td>
             </tr>
           </ng-template>
@@ -63,6 +63,7 @@
             label="Créer une nouvelle politique"
             class="align-items-center justify-content-center"
             severity="primary"
+            (onClick)="showDialog()"
           />
         </div>
       </div>
@@ -72,3 +73,8 @@
 
 <p-toast />
 <p-confirmdialog />
+
+<app-dialog-add-policy
+  [visible]="openDialog"
+  (triggerCloseDialog)="closeDialog()"
+></app-dialog-add-policy>
