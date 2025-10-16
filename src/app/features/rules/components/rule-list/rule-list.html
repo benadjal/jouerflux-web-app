@@ -26,20 +26,16 @@
               <th>Rule ID</th>
               <th>Rule Name</th>
               <th>Policy Id</th>
-              <th style="width: 2rem"></th>
-              <th style="width: 2rem"></th>
+              <th style="width: 2rem">Action</th>
             </tr>
           </ng-template>
           <ng-template #body let-rule>
             <tr>
-              <td>{{rule.id}}</td>
-              <td>{{rule.name}}</td>
-              <td><p-badge [value]="rule.policy_id" /></td>
+              <td>{{ rule.id }}</td>
+              <td>{{ rule.name }}</td>
+              <td><p-badge [value]="rule.policy_id" badgeSize="large" /></td>
 
-              <td>
-                <p-button icon="pi pi-search-plus" severity="secondary" rounded />
-              </td>
-              <td>
+              <td class="flex gap-2">
                 <p-button
                   (click)="confirmDelete($event, rule)"
                   icon="pi pi-trash"

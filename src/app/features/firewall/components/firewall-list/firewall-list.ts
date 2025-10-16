@@ -12,6 +12,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Firewall } from '../../models/firewall.model';
 import { SharedService } from '../../../../shared/services/shared-service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-firewall-list',
@@ -24,6 +25,7 @@ import { SharedService } from '../../../../shared/services/shared-service';
     DialogAddFirewall,
     ConfirmDialog,
     ToastModule,
+    RouterLink
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './firewall-list.html',

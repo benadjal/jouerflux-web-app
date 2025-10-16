@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Firewall, FirewallListResponse } from '../models/firewall.model';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -25,6 +25,13 @@ export class FirewallService {
     return this.http.post<Firewall>(
       `${environment.apiURL}/firewalls`,
       fireWall,
+    );
+  }
+
+  getFirewall(id: number): Observable<Firewall> {
+    console.log("ok");
+    return this.http.get<Firewall>(`${environment.apiURL}/firewalls/${id}`).pipe(
+      tap((res) => console.log(res))
     );
   }
 
