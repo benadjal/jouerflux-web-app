@@ -45,7 +45,8 @@ export class DialogAddPolicy {
 
   triggerCloseDialog = output<boolean>();
 
-
+  filteredFirewalls: Firewall[] = [];
+  
   firewall$ = this.firewallService.getAllFirewalls();
 
   policyForm = new FormGroup({
@@ -59,7 +60,6 @@ export class DialogAddPolicy {
     }),
   });
 
-  filteredFirewalls: Firewall[] = [];
 
   filterFirewalls(event: AutoCompleteCompleteEvent, firewalls: Firewall[]) {
     console.log(event);

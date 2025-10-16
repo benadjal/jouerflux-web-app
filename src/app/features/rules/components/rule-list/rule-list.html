@@ -1,1 +1,85 @@
-<p>rule-list works!</p>
+<div class="flex flex-column justify-content-center">
+  @if (rules$ | async; as rules) {
+    <div
+      class="flex justify-content-between align-items-center mx-auto"
+      style="width: 100%; max-width: 60rem"
+    >
+      <div class="title">
+        <p class="text-lg font-bold text-4xl">Rules</p>
+      </div>
+
+      <div>
+        <p-button
+          label="Créer une règle"
+          severity="primary"
+          size="large"
+          (onClick)="showDialog()"
+        />
+      </div>
+    </div>
+
+    @if (rules.length > 0) {
+      <div class="mx-auto" style="width: 100%; max-width: 60rem">
+        <p-table [value]="rules" style="width: 100%">
+          <ng-template #header>
+            <tr>
+              <th>Rule ID</th>
+              <th>Rule Name</th>
+              <th>Policy Id</th>
+              <th style="width: 2rem"></th>
+              <th style="width: 2rem"></th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-rule>
+            <tr>
+              <td>
+                <p-badge
+                  [value]="rule.id"
+                  badgeSize="large"
+                  severity="success"
+                />
+              </td>
+              <td><p-chip [label]="rule.name" /></td>
+              <td><p-chip [label]="rule.policy_id" /></td>
+
+              <td>
+                <p-button icon="pi pi-search" severity="secondary" rounded />
+              </td>
+              <td>
+                <p-button
+                  (click)="confirmDelete($event, rule)"
+                  icon="pi pi-trash"
+                  severity="danger"
+                  rounded
+                />
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    } @else {
+      <div class="no-rules flex flex-column mt-6">
+        <div class="no-rules-text mx-auto">
+          <p class="text-2xl font-bold">Vous n'avez pas encore de règle</p>
+        </div>
+
+        <div class="mx-auto">
+          <p-button
+            label="Créer une nouvelle régle"
+            class="align-items-center justify-content-center"
+            severity="primary"
+            (onClick)="showDialog()"
+          />
+        </div>
+      </div>
+    }
+  }
+</div>
+
+<p-toast />
+<p-confirmdialog />
+
+<app-dialog-add-policy
+  [visible]="openDialog"
+  (triggerCloseDialog)="closeDialog()"
+></app-dialog-add-policy>
