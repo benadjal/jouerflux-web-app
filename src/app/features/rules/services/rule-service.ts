@@ -23,4 +23,8 @@ export class RuleService {
   addNewRule(rule: Omit<Rule, 'id'>): Observable<Rule> {
     return this.http.post<Rule>(`${environment.apiURL}/rules`, rule);
   }
+
+  deleteRule(ruleId: number) {
+    return this.http.delete(`${environment.apiURL}/rules/${ruleId}`);
+  }
 }

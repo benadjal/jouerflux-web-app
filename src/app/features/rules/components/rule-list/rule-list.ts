@@ -49,10 +49,10 @@ export class RuleList {
     this.openDialog = false;
   }
 
-  confirmDelete(event: Event, policy: Rule) {
+  confirmDelete(event: Event, rule: Rule) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
-      message: `Souhaitez-vous vraiment supprimer :${policy.name} ?`,
+      message: `Souhaitez-vous vraiment supprimer : ${rule.name} ?`,
       header: 'Confirmer la supression',
       icon: 'pi pi-info-circle',
       rejectLabel: 'Cancel',
@@ -66,33 +66,33 @@ export class RuleList {
         severity: 'danger',
       },
 
-      // accept: () => {
-      //   this.rulesService.deletePolicy(policy.id).subscribe({
-      //     next: () => {
-      //       this.messageService.add({
-      //         severity: 'success',
-      //         summary: 'Suppression confirmée',
-      //         detail: `La politique ${policy.name} a bien été supprimée`,
-      //       });
-      //       this.sharedService.refresh();
-      //     },
-      //     error: (err) => {
-      //       console.error(err);
-      //       this.messageService.add({
-      //         severity: 'error',
-      //         summary: 'Erreur',
-      //         detail: `Erreur lors de la suppression de ${policy.name}`,
-      //       });
-      //     },
-      //   });
-      // },
-      // reject: () => {
-      //   this.messageService.add({
-      //     severity: 'info',
-      //     summary: 'Annulé',
-      //     detail: 'Vous avez annulé la suppression',
-      //   });
-      // },
+      accept: () => {
+        this.rulesService.deleteRule(rule.id).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Suppression confirmée',
+              detail: `La règle ${rule.name} a bien été supprimée`,
+            });
+            this.sharedService.refresh();
+          },
+          error: (err) => {
+            console.error(err);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erreur',
+              detail: `Erreur lors de la suppression de ${rule.name}`,
+            });
+          },
+        });
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Annulé',
+          detail: 'Vous avez annulé la suppression',
+        });
+      },
     });
   }
 }
