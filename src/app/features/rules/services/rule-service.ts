@@ -5,20 +5,22 @@ import { Rule, RuleListResponse } from '../models/rule.model';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RuleService {
-    http = inject(HttpClient);
+  http = inject(HttpClient);
 
-    getAllRules() : Observable<Rule[]> {
-        return this.http
-            .get<RuleListResponse>(`${environment.apiURL}/rules`)
-            .pipe(
-              map(
-                (firewallResponseApi: RuleListResponse) =>
-                  firewallResponseApi.items,
-              ),
-            ); 
-    }
+  getAllRules(): Observable<Rule[]> {
+    return this.http
+      .get<RuleListResponse>(`${environment.apiURL}/rules`)
+      .pipe(
+        map(
+          (firewallResponseApi: RuleListResponse) => firewallResponseApi.items,
+        ),
+      );
+  }
 
+  addNewRule(rule: Omit<Rule, 'id'>): Observable<Rule> {
+    return this.http.post<Rule>(`${environment.apiURL}/rules`, rule);
+  }
 }

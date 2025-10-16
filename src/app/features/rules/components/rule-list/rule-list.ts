@@ -11,7 +11,7 @@ import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
-import { DialogAddPolicy } from '../../../policies/components/dialog-add-policy/dialog-add-policy';
+import { DialogAddRule } from "../dialog-add-rule/dialog-add-rule";
 
 @Component({
   selector: 'app-rule-list',
@@ -23,8 +23,8 @@ import { DialogAddPolicy } from '../../../policies/components/dialog-add-policy/
     BadgeModule,
     ConfirmDialog,
     ToastModule,
-    DialogAddPolicy,
-  ],
+    DialogAddRule
+],
   templateUrl: './rule-list.html',
   styleUrl: './rule-list.scss',
   providers: [ConfirmationService, MessageService],
