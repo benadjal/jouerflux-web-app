@@ -10,7 +10,7 @@ import { environment } from '../../../../environments/environment';
 export class PolicyService {
   http = inject(HttpClient);
 
-  addNewPolicy(policy: Omit<Policy, 'id'>): Observable<Policy> {
+  createPolicy(policy: Omit<Policy, 'id'>): Observable<Policy> {
     return this.http.post<Policy>(`${environment.apiURL}/policies`, policy);
   }
 

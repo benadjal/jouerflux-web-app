@@ -1,4 +1,4 @@
-import { Component, inject, Input, output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -10,17 +10,20 @@ import { ButtonModule } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
-import { FirewallService } from '../../../firewall/services/firewallService';
+import { FirewallService } from '../../../firewall/services/firewall-service';
 import { Policy } from '../../models/policy.model';
 import { SharedService } from '../../../../shared/services/shared-service';
 import { MessageService } from 'primeng/api';
 import { PolicyService } from '../../services/policy-service';
-import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
+import {
+  AutoCompleteCompleteEvent,
+  AutoCompleteModule,
+} from 'primeng/autocomplete';
 import { AsyncPipe } from '@angular/common';
 import { Firewall } from '../../../firewall/models/firewall.model';
 
 @Component({
-  selector: 'app-dialog-add-policy',
+  selector: 'app-policy-create-form-dialog',
   imports: [
     Dialog,
     ButtonModule,
@@ -31,23 +34,22 @@ import { Firewall } from '../../../firewall/models/firewall.model';
     AsyncPipe,
     FormsModule,
   ],
-  templateUrl: './dialog-add-policy.html',
-  styleUrl: './dialog-add-policy.scss',
+  templateUrl: './policy-create-form-dialog.html',
+  styleUrl: './policy-create-form-dialog.scss',
 })
 export class DialogAddPolicy {
+  @Input() isVisibleDialog = false;
+  @Output() triggerCloseDialog = new EventEmitter();
+
   firewallService = inject(FirewallService);
   policyService = inject(PolicyService);
   sharedService = inject(SharedService);
 
   messageService = inject(MessageService);
 
-  @Input() visible = false;
-
-  triggerCloseDialog = output<boolean>();
+  firewall$ = this.firewallService.getAllFirewalls();
 
   filteredFirewalls: Firewall[] = [];
-  
-  firewall$ = this.firewallService.getAllFirewalls();
 
   policyForm = new FormGroup({
     name: new FormControl('', {
@@ -60,7 +62,6 @@ export class DialogAddPolicy {
     }),
   });
 
-
   filterFirewalls(event: AutoCompleteCompleteEvent, firewalls: Firewall[]) {
     console.log(event);
     const query = event.query?.toLowerCase() ?? '';
@@ -70,28 +71,29 @@ export class DialogAddPolicy {
   }
 
   createPolicie() {
-    if (this.policyForm.valid) {
-      this.policyService.addNewPolicy(this.policyForm.getRawValue()).subscribe({
-        next: (newPolicy: Policy) => {
-          this.sharedService.refresh();
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: `Policy : ${newPolicy.name} créé avec succès`,
-            life: 3000,
-          });
-        },
-        error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Erreur',
-            detail: error.error.message,
-            life: 3000,
-          });
-        },
-      });
-      this.closeDialog();
-    }
+    this.policyForm.markAllAsTouched();
+    if (this.policyForm.invalid) return;
+
+    this.policyService.createPolicy(this.policyForm.getRawValue()).subscribe({
+      next: (createdPolicy: Policy) => {
+        this.sharedService.refresh();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: `Policy : ${createdPolicy.name} créé avec succès`,
+          life: 3000,
+        });
+        this.closeDialog();
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: error.error.message,
+          life: 3000,
+        });
+      },
+    });
   }
 
   closeDialog() {

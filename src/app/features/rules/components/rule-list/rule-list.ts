@@ -11,7 +11,7 @@ import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
-import { DialogAddRule } from "../dialog-add-rule/dialog-add-rule";
+import { DialogAddRule } from "../rule-create-form-dialog/rule-create-form-dialog";
 
 @Component({
   selector: 'app-rule-list',

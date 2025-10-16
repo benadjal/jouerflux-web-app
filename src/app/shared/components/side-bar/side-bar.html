@@ -1,24 +1,33 @@
-<div class="flex justify-content-center gap-4 mt-5 flex-wrap md:flex-column">
-  <p-button
+<div class="flex flex-wrap justify-content-center gap-3 mt-5">
+  <button
+    pButton
     icon="pi pi-shield"
-    label="Firewalls"
-    size="large"
-    routerLink="/"
-  ></p-button>
-  <p-button
+    routerLink="/firewalls"
+    routerLinkActive="p-button-outlined p-button-primary"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    Firewalls
+  </button>
+
+  <button
+    pButton
     icon="pi pi-lock"
-    label="Policies"
-    size="large"
-    routerLink="policies"
-  ></p-button>
-  <p-button
+    routerLink="/policies"
+    routerLinkActive="p-button-outlined p-button-primary"
+  >
+    Policies
+  </button>
+
+  <button
+    pButton
     icon="pi pi-cog"
-    label="Rules"
-    size="large"
-    routerLink="rules"
-  ></p-button>
+    routerLink="/rules"
+    routerLinkActive="p-button-outlined p-button-primary"
+  >
+    Rules
+  </button>
+
   <a href="http://localhost:80/apidocs" target="_blank">
-    <p-button icon="pi pi-file" label="API Docs" size="large"></p-button>
+    <button pButton icon="pi pi-file">API Docs</button>
   </a>
 </div>
-

@@ -43,7 +43,7 @@
               <td><p-chip [label]="rule.policy_id" /></td>
 
               <td>
-                <p-button icon="pi pi-search" severity="secondary" rounded />
+                <p-button icon="pi pi-search-plus" severity="secondary" rounded />
               </td>
               <td>
                 <p-button
@@ -79,7 +79,7 @@
 <p-toast />
 <p-confirmdialog />
 
-<app-dialog-add-rule
+<app-rule-create-form-dialog
   [visible]="openDialog"
   (triggerCloseDialog)="closeDialog()"
-></app-dialog-add-rule>
+></app-rule-create-form-dialog>

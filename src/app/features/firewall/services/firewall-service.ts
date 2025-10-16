@@ -10,14 +10,6 @@ import { environment } from '../../../../environments/environment';
 export class FirewallService {
   http = inject(HttpClient);
 
-
-  addNewFirewall(fireWall: Omit<Firewall, 'id'>): Observable<Firewall> {
-    return this.http.post<Firewall>(
-      `${environment.apiURL}/firewalls`,
-      fireWall,
-    );
-  }
-
   getAllFirewalls(): Observable<Firewall[]> {
     return this.http
       .get<FirewallListResponse>(`${environment.apiURL}/firewalls`)
@@ -29,9 +21,14 @@ export class FirewallService {
       );
   }
 
-  deleteFirewalls(firewallId: number) {
-    return this.http.delete(`${environment.apiURL}/firewalls/${firewallId}`);
+  createFirewall(fireWall: Omit<Firewall, 'id'>): Observable<Firewall> {
+    return this.http.post<Firewall>(
+      `${environment.apiURL}/firewalls`,
+      fireWall,
+    );
   }
 
-
+  deleteFirewall(firewallId: number) {
+    return this.http.delete(`${environment.apiURL}/firewalls/${firewallId}`);
+  }
 }

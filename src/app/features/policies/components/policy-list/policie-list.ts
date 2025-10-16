@@ -8,7 +8,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { PolicyService } from '../../services/policy-service';
-import { DialogAddPolicy } from '../dialog-add-policy/dialog-add-policy';
+import { DialogAddPolicy } from '../policy-create-form-dialog/policy-create-form-dialog';
 import { SharedService } from '../../../../shared/services/shared-service';
 import { switchMap } from 'rxjs';
 import { Policy } from '../../models/policy.model';
@@ -31,24 +31,16 @@ import { Policy } from '../../models/policy.model';
   styleUrl: './policie-list.scss',
 })
 export class PolicieList {
-  openDialog = false;
-
   confirmationService = inject(ConfirmationService);
   messageService = inject(MessageService);
   policiesService = inject(PolicyService);
   sharedService = inject(SharedService);
 
+  isVisibleDialog = false;
+
   policies$ = this.sharedService.refreshTrigger$$.pipe(
     switchMap(() => this.policiesService.getAllPolicies()),
   );
-
-  showDialog() {
-    this.openDialog = true;
-  }
-
-  closeDialog() {
-    this.openDialog = false;
-  }
 
   confirmDelete(event: Event, policy: Policy) {
     this.confirmationService.confirm({
@@ -95,5 +87,13 @@ export class PolicieList {
         });
       },
     });
+  }
+
+  showDialog() {
+    this.isVisibleDialog = true;
+  }
+
+  closeDialog() {
+    this.isVisibleDialog = false;
   }
 }

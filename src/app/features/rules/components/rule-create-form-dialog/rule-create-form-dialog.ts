@@ -1,13 +1,22 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject, Input, output } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
+  AutoCompleteCompleteEvent,
+  AutoCompleteModule,
+} from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { Policy } from '../../../policies/models/policy.model';
-import { FirewallService } from '../../../firewall/services/firewallService';
+import { FirewallService } from '../../../firewall/services/firewall-service';
 import { PolicyService } from '../../../policies/services/policy-service';
 import { SharedService } from '../../../../shared/services/shared-service';
 import { MessageService } from 'primeng/api';
@@ -15,18 +24,19 @@ import { RuleService } from '../../services/rule-service';
 import { Rule } from '../../models/rule.model';
 
 @Component({
-  selector: 'app-dialog-add-rule',
-  imports: [   Dialog,
+  selector: 'app-rule-create-form-dialog',
+  imports: [
+    Dialog,
     ButtonModule,
     InputTextModule,
     ReactiveFormsModule,
     MessageModule,
     AutoCompleteModule,
     AsyncPipe,
-    FormsModule
+    FormsModule,
   ],
-  templateUrl: './dialog-add-rule.html',
-  styleUrl: './dialog-add-rule.scss'
+  templateUrl: './rule-create-form-dialog.html',
+  styleUrl: './rule-create-form-dialog.scss',
 })
 export class DialogAddRule {
   firewallService = inject(FirewallService);
@@ -37,11 +47,10 @@ export class DialogAddRule {
   messageService = inject(MessageService);
 
   @Input() visible = false;
-
-  triggerCloseDialog = output<boolean>();
+  @Output() triggerCloseDialog = new EventEmitter();
 
   filteredPolicies: Policy[] = [];
-  
+
   policies$ = this.policyService.getAllPolicies();
 
   ruleForm = new FormGroup({
@@ -55,9 +64,7 @@ export class DialogAddRule {
     }),
   });
 
-
   filterPolicies(event: AutoCompleteCompleteEvent, policies: Policy[]) {
-    console.log(event);
     const query = event.query?.toLowerCase() ?? '';
     this.filteredPolicies = policies.filter((f) =>
       f.name.toLowerCase().includes(query),
@@ -65,16 +72,20 @@ export class DialogAddRule {
   }
 
   createRule() {
+    this.ruleForm.markAllAsTouched();
+    if (this.ruleForm.invalid) return;
+
     if (this.ruleForm.valid) {
       this.ruleService.addNewRule(this.ruleForm.getRawValue()).subscribe({
-        next: (newRule: Rule) => {
+        next: (createdRule: Rule) => {
           this.sharedService.refresh();
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
-            detail: `Règle : ${newRule.name} créé avec succès`,
+            detail: `Règle : ${createdRule.name} créé avec succès`,
             life: 3000,
           });
+          this.closeDialog();
         },
         error: (error) => {
           this.messageService.add({
@@ -85,7 +96,6 @@ export class DialogAddRule {
           });
         },
       });
-      this.closeDialog();
     }
   }
 

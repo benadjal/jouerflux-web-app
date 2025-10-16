@@ -7,7 +7,7 @@
       <div class="title">
         <p class="text-lg font-bold text-4xl">Firewalls</p>
       </div>
- 
+
       <div class="">
         <p-button
           label="Créer un Firewall"
@@ -32,22 +32,18 @@
           <ng-template #body let-firewall>
             <tr>
               <td>
-                <p-badge
-                  [value]="firewall.id"
-                  badgeSize="large"
-                  severity="success"
-                />
+                {{firewall.id}}
               </td>
-              <td><p-chip [label]="firewall.name" /></td>
+              <td>{{firewall.name}}</td>
               <td>
-                <p-button icon="pi pi-search" severity="secondary" rounded />
+                <p-button icon="pi pi-search-plus" severity="secondary" rounded />
               </td>
               <td>
                 <p-button
                   icon="pi pi-trash"
                   severity="danger"
                   rounded
-                  (click)="confirmDelete($event,firewall)"
+                  (click)="confirmDelete($event, firewall)"
                 />
               </td>
             </tr>
@@ -76,7 +72,7 @@
 <p-toast />
 <p-confirmdialog />
 
-<app-dialog-add-firewall
-  [visible]="openDialog"
+<app-firewall-create-form-dialog
+  [isVisibleDialog]="isVisibleDialog"
   (triggerCloseDialog)="closeDialog()"
-></app-dialog-add-firewall>
+></app-firewall-create-form-dialog>

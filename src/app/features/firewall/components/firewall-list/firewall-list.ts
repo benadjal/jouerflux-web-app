@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { FirewallService } from '../../services/firewallService';
+import { FirewallService } from '../../services/firewall-service';
 import { AsyncPipe } from '@angular/common';
 import { switchMap } from 'rxjs';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
-import { DialogAddFirewall } from '../dialog-add-firewall/dialog-add-firewall';
+import { DialogAddFirewall } from '../firewall-create-form-dialog/firewall-create-form-dialog';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -23,18 +23,18 @@ import { SharedService } from '../../../../shared/services/shared-service';
     BadgeModule,
     DialogAddFirewall,
     ConfirmDialog,
-    ToastModule
+    ToastModule,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './firewall-list.html',
   styleUrl: './firewall-list.scss',
 })
 export class FirewallList {
-  openDialog = false;
+  isVisibleDialog = false;
 
   fireWallService = inject(FirewallService);
 
-  sharedService = inject(SharedService)
+  sharedService = inject(SharedService);
 
   confirmationService = inject(ConfirmationService);
 
@@ -44,14 +44,6 @@ export class FirewallList {
     switchMap(() => this.fireWallService.getAllFirewalls()),
   );
 
-  showDialog() {
-    this.openDialog = true;
-  }
-
-  closeDialog() {
-    this.openDialog = false;
-  }
- 
   confirmDelete(event: Event, fireWall: Firewall) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
@@ -70,7 +62,7 @@ export class FirewallList {
       },
 
       accept: () => {
-        this.fireWallService.deleteFirewalls(fireWall.id).subscribe({
+        this.fireWallService.deleteFirewall(fireWall.id).subscribe({
           next: () => {
             this.messageService.add({
               severity: 'success',
@@ -97,5 +89,13 @@ export class FirewallList {
         });
       },
     });
+  }
+
+  showDialog() {
+    this.isVisibleDialog = true;
+  }
+
+  closeDialog() {
+    this.isVisibleDialog = false;
   }
 }

@@ -1,6 +1,6 @@
 <p-dialog
   header="Ajouter un firewall"
-  [(visible)]="visible"
+  [(visible)]="isVisibleDialog"
   (onHide)="closeDialog()"
   [style]="{ width: '25rem' }"
 >
@@ -17,25 +17,19 @@
         style="width: 100%"
       />
       @if (
-        firewallForm.controls.name.invalid && firewallForm.controls.name.touched
+        firewallForm.controls.name.invalid && (firewallForm.controls.name.touched || firewallForm.controls.name.dirty)
       ) {
         @if (firewallForm.controls.name.hasError("required")) {
-          <p-message severity="error" size="small" variant="simple"
-            >Nom obligatoire</p-message
-          >
+          <small class="text-red-500">Le nom est obligatoire</small>
         }
 
         @if (firewallForm.controls.name.hasError("minlength")) {
-          <p-message severity="error" size="small" variant="simple"
-            >Minimum 3 lettres</p-message
-          >
+          <small class="text-red-500">Minimum 3 lettres</small>
         }
       }
       <div class="flex justify-content-end gap-2 mt-2">
         <p-button label="Annuler" severity="secondary" (click)="closeDialog()" />
-        <button pButton type="submit" [disabled]="firewallForm.invalid">
-          Créer
-        </button>
+        <p-button label="Créer" type="submit"/>
       </div>
     </form>
   </div>
