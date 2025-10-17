@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { Rule, RuleListResponse } from '../../models/rule.model';
-import { combineLatest, switchMap, tap } from 'rxjs';
+import { Rule } from '../../models/rule.model';
+import { combineLatest, map, startWith } from 'rxjs';
 import { SharedService } from '../../../../shared/services/shared-service';
 import { RuleService } from '../../services/rule-service';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -12,7 +12,7 @@ import { BadgeModule } from 'primeng/badge';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { DialogAddRule } from '../rule-create-form-dialog/rule-create-form-dialog';
-import { Paginator } from "../../../../shared/components/paginator/paginator";
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-rule-list',
@@ -25,8 +25,8 @@ import { Paginator } from "../../../../shared/components/paginator/paginator";
     ConfirmDialog,
     ToastModule,
     DialogAddRule,
-    Paginator
-],
+    ReactiveFormsModule
+  ],
   templateUrl: './rule-list.html',
   styleUrl: './rule-list.scss',
   providers: [ConfirmationService, MessageService],
@@ -38,16 +38,24 @@ export class RuleList {
   sharedService = inject(SharedService);
 
   openDialog = false;
-  totalPage = 0;
 
-  rules$ = combineLatest([
-    this.sharedService.paginatorTriggered$$,
-    this.sharedService.refreshTrigger$$,
+  searchForm = new FormGroup({
+    text: new FormControl('', { nonNullable: true }),
+  });
+
+  ruleList$ = this.rulesService.allRulesWithoutPagination$;
+
+  filtredRules$ = combineLatest([
+    this.ruleList$,
+    this.searchForm.controls.text.valueChanges.pipe(startWith('')),
   ]).pipe(
-    switchMap(([page]) => this.rulesService.getAllRules(page)),
-    tap((apiPolicyResponse: RuleListResponse) => {
-      this.totalPage = apiPolicyResponse.total_pages;
-    }),
+    map(([resultat, search]) =>
+      resultat.filter(
+        (policy) =>
+          policy.name.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          policy.id.toString().includes(search),
+      ),
+    ),
   );
 
   showDialog() {

@@ -8,7 +8,6 @@ import {
   of,
   shareReplay,
   switchMap,
-  tap,
 } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { SharedService } from '../../../shared/services/shared-service';
@@ -52,7 +51,6 @@ export class PolicyService {
         ),
       ),
     ),
-    tap((res) => console.log(res)),
     shareReplay(1),
   );
 }
