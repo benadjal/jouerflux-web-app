@@ -51,7 +51,7 @@ export class DialogAddPolicy {
   policyForm = new FormGroup({
     name: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.minLength(3)],
+      validators: [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
     }),
     firewall_id: new FormControl('', {
       nonNullable: true,

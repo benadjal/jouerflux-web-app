@@ -26,6 +26,10 @@
       @if (policyForm.controls.name.hasError("minlength")) {
         <small class="text-red-500">Minimum 3 lettres</small>
       }
+
+      @if (policyForm.controls.name.hasError("maxlength")) {
+        <small class="text-red-500">Maximum 50 lettres</small>
+      }
     }
     @if (firewall$ | async; as firewalls) {
       <p-select
@@ -45,7 +49,6 @@
             <div>{{ selectedOption.name }}</div>
           </div>
         </ng-template>
-        
       </p-select>
     }
 

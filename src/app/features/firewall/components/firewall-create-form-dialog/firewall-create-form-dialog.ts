@@ -43,7 +43,7 @@ export class DialogAddFirewall {
   firewallForm = new FormGroup({
     name: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.minLength(3)],
+      validators: [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
     }),
   });
 
