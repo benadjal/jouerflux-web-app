@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Rule, RuleListResponse } from '../models/rule.model';
 import { environment } from '../../../../environments/environment';
 
@@ -10,14 +10,13 @@ import { environment } from '../../../../environments/environment';
 export class RuleService {
   http = inject(HttpClient);
 
-  getAllRules(): Observable<Rule[]> {
+  getAllRules(pageNumber : number): Observable<RuleListResponse> {
     return this.http
-      .get<RuleListResponse>(`${environment.apiURL}/rules`)
-      .pipe(
-        map(
-          (firewallResponseApi: RuleListResponse) => firewallResponseApi.items,
-        ),
-      );
+      .get<RuleListResponse>(`${environment.apiURL}/rules`,{
+        params : {
+          page : pageNumber
+        }
+      });
   }
 
   addNewRule(rule: Omit<Rule, 'id'>): Observable<Rule> {

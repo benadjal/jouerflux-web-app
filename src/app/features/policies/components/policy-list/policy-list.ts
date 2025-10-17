@@ -43,11 +43,7 @@ export class PolicieList {
   isVisibleDialog = false;
 
   totalPage = 0;
-
-  // policies$ = this.sharedService.refreshTrigger$$.pipe(
-  //   switchMap(() => this.policiesService.getAllPolicies()),
-  // );
-
+  
   policies$ = combineLatest([
     this.sharedService.paginatorTriggered$$,
     this.sharedService.refreshTrigger$$,

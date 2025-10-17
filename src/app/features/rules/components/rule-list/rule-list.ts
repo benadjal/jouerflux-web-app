@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { Rule } from '../../models/rule.model';
-import { switchMap } from 'rxjs';
+import { Rule, RuleListResponse } from '../../models/rule.model';
+import { combineLatest, switchMap, tap } from 'rxjs';
 import { SharedService } from '../../../../shared/services/shared-service';
 import { RuleService } from '../../services/rule-service';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -11,7 +11,8 @@ import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
-import { DialogAddRule } from "../rule-create-form-dialog/rule-create-form-dialog";
+import { DialogAddRule } from '../rule-create-form-dialog/rule-create-form-dialog';
+import { Paginator } from "../../../../shared/components/paginator/paginator";
 
 @Component({
   selector: 'app-rule-list',
@@ -23,22 +24,30 @@ import { DialogAddRule } from "../rule-create-form-dialog/rule-create-form-dialo
     BadgeModule,
     ConfirmDialog,
     ToastModule,
-    DialogAddRule
+    DialogAddRule,
+    Paginator
 ],
   templateUrl: './rule-list.html',
   styleUrl: './rule-list.scss',
   providers: [ConfirmationService, MessageService],
 })
 export class RuleList {
-  openDialog = false;
-
   confirmationService = inject(ConfirmationService);
   messageService = inject(MessageService);
   rulesService = inject(RuleService);
   sharedService = inject(SharedService);
 
-  rules$ = this.sharedService.refreshTrigger$$.pipe(
-    switchMap(() => this.rulesService.getAllRules()),
+  openDialog = false;
+  totalPage = 0;
+
+  rules$ = combineLatest([
+    this.sharedService.paginatorTriggered$$,
+    this.sharedService.refreshTrigger$$,
+  ]).pipe(
+    switchMap(([page]) => this.rulesService.getAllRules(page)),
+    tap((apiPolicyResponse: RuleListResponse) => {
+      this.totalPage = apiPolicyResponse.total_pages;
+    }),
   );
 
   showDialog() {
