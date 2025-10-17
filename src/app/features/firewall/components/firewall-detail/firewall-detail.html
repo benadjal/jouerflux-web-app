@@ -5,7 +5,11 @@
       style="max-width: 60rem"
     >
       <h3 class="text-2xl font-bold">Détails du Firewall</h3>
-      <p-button label="Modifier" [disabled]="true" class="p-button-outlined p-button-sm"></p-button>
+      <p-button
+        label="Modifier"
+        [disabled]="true"
+        class="p-button-outlined p-button-sm"
+      ></p-button>
     </div>
 
     <div
@@ -23,79 +27,91 @@
         class="col-12 sm:col-4 flex flex-column gap-1 justify-content-center align-items-center border-round p-3 max-w-12rem bg-primary-400"
       >
         <small class="font-bold text-center">Total politiques</small>
-        <p class="text-3xl font-semibold text-center">{{ firewall.policies.length }}</p>
+        <p class="text-3xl font-semibold text-center">
+          {{ firewall.policies.length }}
+        </p>
       </div>
 
       <div
         class="col-12 sm:col-4 flex flex-column gap-1 justify-content-center align-items-center border-round p-3 max-w-12rem bg-primary-400"
       >
         <small class="font-bold text-center">Total règles</small>
-        <p class="text-3xl font-semibold text-center">{{ firewall.totalRules }}</p>
+        <p class="text-3xl font-semibold text-center">
+          {{ firewall.totalRules }}
+        </p>
       </div>
     </div>
 
-    <div
-      class="col-12"
-      style="max-width: 60rem"
-    >
+    <div class="col-12" style="max-width: 60rem">
       <h4 class="text-xl font-bold">Liste politiques</h4>
-          @if (firewall.policies.length > 0) {
-      <div class="mx-auto" style="width: 100%; max-width: 60rem">
-        <p-table [value]="firewall.policies" style="width: 100%">
-          <ng-template #header>
-            <tr>
-              <th>Policy ID</th>
-              <th>Policy Name</th>
-              <!-- <th>Firewall Id</th> -->
-              <th>Number of rules</th>
-              <th style="width: 2rem">Action</th>
-            </tr>
-          </ng-template>
-          <ng-template #body let-policy>
-            <tr>
-              <td>
-                <p-badge [value]="policy.id" badgeSize="large" />
-              </td>
-              <td>{{ policy.name }}</td>
-              <!-- <td>
+      @if (firewall.policies.length > 0) {
+        <div class="mx-auto" style="width: 100%; max-width: 60rem">
+          <p-table [value]="firewall.policies" style="width: 100%">
+            <ng-template #header>
+              <tr>
+                <th>Policy ID</th>
+                <th>Policy Name</th>
+                <!-- <th>Firewall Id</th> -->
+                <th>Number of rules</th>
+                <th style="width: 2rem">Action</th>
+              </tr>
+            </ng-template>
+            <ng-template #body let-policy>
+              <tr>
+                <td>
+                  <p-badge [value]="policy.id" badgeSize="large" />
+                </td>
+                <td>{{ policy.name }}</td>
+                <!-- <td>
                 {{policy.firewall_id}}
               </td> -->
-              <td>{{policy.rules.length}}</td>
-              <td class="flex gap-2">
-                <!-- <p-button
+                <td>{{ policy.rules.length }}</td>
+                <td class="flex gap-2">
+                  <!-- <p-button
                   icon="pi pi-search-plus"
                   severity="secondary"
                   rounded
                 /> -->
-                <p-button
-                  icon="pi pi-trash"
-                  (onClick)="confirmDelete($event,policy)"
-                  severity="danger"
-                  rounded
-                />
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
-    } @else {
-      <div class="no-policys flex flex-column mt-6">
-        <div class="no-policys-text mx-auto">
-          <p class="text-2xl font-bold">Vous n'avez pas encore de politique</p>
+                  <p-button
+                    icon="pi pi-trash"
+                    (onClick)="confirmDelete($event, policy)"
+                    severity="danger"
+                    rounded
+                  />
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <div class="flex justify-content-center mt-3">
+            <p-button icon="pi pi-plus" rounded (onClick)="showDialog()" />
+          </div>
         </div>
+      } @else {
+        <div class="no-policys flex flex-column mt-6">
+          <div class="no-policys-text mx-auto">
+            <p class="text-2xl font-bold">
+              Vous n'avez pas encore de politique
+            </p>
+          </div>
 
-        <div class="mx-auto">
-          <p-button
-            label="Créer une nouvelle politique"
-            class="align-items-center justify-content-center"
-            severity="primary"
-          />
+          <div class="mx-auto">
+            <p-button
+              label="New policy"
+              class="align-items-center justify-content-center"
+              severity="primary"
+              (onClick)="showDialog()"
+            />
+          </div>
         </div>
-      </div>
-    }
+      }
     </div>
   </div>
 }
 
 <p-toast />
 <p-confirmdialog />
+
+<app-policy-create-form-dialog
+  [isVisibleDialog]="isVisibleDialog"
+  (triggerCloseDialog)="closeDialog()"
+></app-policy-create-form-dialog>

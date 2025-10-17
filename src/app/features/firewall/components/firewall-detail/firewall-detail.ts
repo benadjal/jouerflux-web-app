@@ -12,6 +12,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { SharedService } from '../../../../shared/services/shared-service';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import { DialogAddPolicy } from '../../../policies/components/policy-create-form-dialog/policy-create-form-dialog';
 
 @Component({
   selector: 'app-firewall-detail',
@@ -22,6 +23,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
     BadgeModule,
     ToastModule,
     ConfirmDialog,
+    DialogAddPolicy,
   ],
   templateUrl: './firewall-detail.html',
   styleUrl: './firewall-detail.scss',
@@ -34,6 +36,8 @@ export class FirewallDetail {
   confirmationService = inject(ConfirmationService);
   messageService = inject(MessageService);
   sharedService = inject(SharedService);
+
+  isVisibleDialog = false;
 
   firewall$ = combineLatest([
     this.route.params,
@@ -97,5 +101,13 @@ export class FirewallDetail {
         });
       },
     });
+  }
+
+  showDialog() {
+    this.isVisibleDialog = true;
+  }
+
+  closeDialog() {
+    this.isVisibleDialog = false;
   }
 }
