@@ -44,7 +44,7 @@ export class DialogAddPolicy {
 
   messageService = inject(MessageService);
 
-  firewall$ = this.firewallService.getAllFirewalls(0);
+  firewall$ = this.firewallService.allFirewallsWithoutPagination$;
 
   filteredFirewalls: Firewall[] = [];
 
@@ -62,8 +62,6 @@ export class DialogAddPolicy {
   createPolicie() {
     this.policyForm.markAllAsTouched();
     if (this.policyForm.invalid) return;
-
-    console.log(this.policyForm)
 
     this.policyService.createPolicy(this.policyForm.getRawValue()).subscribe({
       next: (createdPolicy: Policy) => {

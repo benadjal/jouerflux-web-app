@@ -21,7 +21,6 @@ export class Paginator implements OnInit {
   }
 
   onPageChange(event: PaginatorState) {
-    console.log(event);
     this.sharedService.pageChanged((event.page ?? 0) + 1);
   }
 }

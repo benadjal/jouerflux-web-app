@@ -33,7 +33,7 @@
     }
     @if (firewall$ | async; as firewalls) {
       <p-select
-        [options]="firewalls.items"
+        [options]="firewalls"
         optionLabel="name"
         optionValue="id"
         [filter]="true"

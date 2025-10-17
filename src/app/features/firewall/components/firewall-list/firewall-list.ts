@@ -1,7 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { FirewallService } from '../../services/firewall-service';
 import { AsyncPipe } from '@angular/common';
-import { combineLatest, switchMap, tap } from 'rxjs';
+import {
+  combineLatest,
+  map,
+  startWith,
+} from 'rxjs';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
@@ -10,10 +14,10 @@ import { DialogAddFirewall } from '../firewall-create-form-dialog/firewall-creat
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Firewall, FirewallListResponse } from '../../models/firewall.model';
+import { Firewall } from '../../models/firewall.model';
 import { SharedService } from '../../../../shared/services/shared-service';
 import { RouterLink } from '@angular/router';
-import { Paginator } from '../../../../shared/components/paginator/paginator';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-firewall-list',
@@ -27,7 +31,7 @@ import { Paginator } from '../../../../shared/components/paginator/paginator';
     ConfirmDialog,
     ToastModule,
     RouterLink,
-    Paginator,
+    ReactiveFormsModule,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './firewall-list.html',
@@ -45,16 +49,23 @@ export class FirewallList {
   messageService = inject(MessageService);
 
   totalPage = 0;
-  
-  firewallList$ = combineLatest([
-    this.sharedService.paginatorTriggered$$,
-    this.sharedService.refreshTrigger$$,
-  ]).pipe(
-    switchMap(([page]) => this.fireWallService.getAllFirewalls(page)),
-    tap((apiFirewallResponse: FirewallListResponse) => {
-      this.totalPage = apiFirewallResponse.total_pages;
-    }),
-  );
+
+  searchForm = new FormGroup({
+    text: new FormControl('', { nonNullable: true }),
+  });
+
+  firewallList$ = this.fireWallService.allFirewallsWithoutPagination$
+
+  filtredFirewallList$ = combineLatest([
+    this.firewallList$,
+    this.searchForm.controls.text.valueChanges.pipe(startWith('')),
+  ])
+    .pipe(
+      map(([resultat, search]) =>
+        resultat.filter((firewall) => 
+          firewall.name.toLowerCase().includes(search.toLocaleLowerCase()) || firewall.id.toString().includes(search))
+        ),
+      )
 
   confirmDelete(event: Event, fireWall: Firewall) {
     this.confirmationService.confirm({

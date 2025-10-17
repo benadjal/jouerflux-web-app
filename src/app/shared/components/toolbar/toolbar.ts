@@ -36,7 +36,6 @@ export class Toolbar implements OnInit{
         visible: window.innerWidth <= 960
       }
     ];
-    console.log(this.items)
   }
 
   toggleDarkMode() {
