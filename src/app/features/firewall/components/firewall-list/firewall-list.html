@@ -18,15 +18,16 @@
       </div>
     </div>
 
+    <div [formGroup]="searchForm">
+      <input
+        type="text"
+        class="p-inputtext p-component w-full mb-3"
+        placeholder="Rechercher un firewall (Nom ou ID)"
+        formControlName="text"
+      />
+    </div>
+
     @if (firewall.length > 0) {
-      <div [formGroup]="searchForm">
-        <input
-          type="text"
-          class="p-inputtext p-component w-full mb-3"
-          placeholder="Rechercher un firewall (Nom ou ID)"
-          formControlName="text"
-        />
-      </div>
       <div class="mx-auto" style="width: 100%; max-width: 60rem">
         <p-table
           [value]="firewall"

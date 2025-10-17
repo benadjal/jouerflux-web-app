@@ -10,10 +10,10 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { PolicyService } from '../../services/policy-service';
 import { DialogAddPolicy } from '../policy-create-form-dialog/policy-create-form-dialog';
 import { SharedService } from '../../../../shared/services/shared-service';
-import { combineLatest, switchMap, tap } from 'rxjs';
-import { Policy, PolicyListResponse } from '../../models/policy.model';
+import { combineLatest, map, startWith} from 'rxjs';
+import { Policy } from '../../models/policy.model';
 import { RouterLink } from '@angular/router';
-import { Paginator } from '../../../../shared/components/paginator/paginator';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-policy-list',
@@ -27,7 +27,7 @@ import { Paginator } from '../../../../shared/components/paginator/paginator';
     ToastModule,
     DialogAddPolicy,
     RouterLink,
-    Paginator,
+    ReactiveFormsModule,
   ],
   providers: [ConfirmationService, MessageService],
 
@@ -42,16 +42,23 @@ export class PolicieList {
 
   isVisibleDialog = false;
 
-  totalPage = 0;
-  
-  policies$ = combineLatest([
-    this.sharedService.paginatorTriggered$$,
-    this.sharedService.refreshTrigger$$,
+  searchForm = new FormGroup({
+    text: new FormControl('', { nonNullable: true }),
+  });
+
+  policiesList$ = this.policiesService.allPoliciesWithoutPagination$;
+
+  filtredPolicies$ = combineLatest([
+    this.policiesList$,
+    this.searchForm.controls.text.valueChanges.pipe(startWith('')),
   ]).pipe(
-    switchMap(([page]) => this.policiesService.getAllPolicies(page)),
-    tap((apiPolicyResponse: PolicyListResponse) => {
-      this.totalPage = apiPolicyResponse.total_pages;
-    }),
+    map(([resultat, search]) =>
+      resultat.filter(
+        (policy) =>
+          policy.name.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          policy.id.toString().includes(search),
+      ),
+    ),
   );
 
   confirmDelete(event: Event, policy: Policy) {

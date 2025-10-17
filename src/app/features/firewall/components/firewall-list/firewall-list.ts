@@ -48,8 +48,6 @@ export class FirewallList {
 
   messageService = inject(MessageService);
 
-  totalPage = 0;
-
   searchForm = new FormGroup({
     text: new FormControl('', { nonNullable: true }),
   });
