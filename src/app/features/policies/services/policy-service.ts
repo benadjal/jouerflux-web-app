@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Policy, PolicyListResponse } from '../models/policy.model';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -14,15 +14,13 @@ export class PolicyService {
     return this.http.post<Policy>(`${environment.apiURL}/policies`, policy);
   }
 
-  getAllPolicies(): Observable<Policy[]> {
+  getAllPolicies(pageNumber: number): Observable<PolicyListResponse> {
     return this.http
-      .get<PolicyListResponse>(`${environment.apiURL}/policies`)
-      .pipe(
-        map(
-          (firewallResponseApi: PolicyListResponse) =>
-            firewallResponseApi.items,
-        ),
-      );
+      .get<PolicyListResponse>(`${environment.apiURL}/policies`, {
+        params : {
+          page : pageNumber
+        }
+      });
   }
 
   deletePolicy(policyId: number) {

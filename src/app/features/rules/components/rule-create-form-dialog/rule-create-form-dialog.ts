@@ -53,7 +53,7 @@ export class DialogAddRule {
 
   filteredPolicies: Policy[] = [];
 
-  policies$ = this.policyService.getAllPolicies();
+  policies$ = this.policyService.getAllPolicies(0);
 
   ruleForm = new FormGroup({
     name: new FormControl('', {

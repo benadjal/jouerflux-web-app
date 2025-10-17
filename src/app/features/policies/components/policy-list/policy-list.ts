@@ -10,9 +10,10 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { PolicyService } from '../../services/policy-service';
 import { DialogAddPolicy } from '../policy-create-form-dialog/policy-create-form-dialog';
 import { SharedService } from '../../../../shared/services/shared-service';
-import { switchMap } from 'rxjs';
-import { Policy } from '../../models/policy.model';
+import { combineLatest, switchMap, tap } from 'rxjs';
+import { Policy, PolicyListResponse } from '../../models/policy.model';
 import { RouterLink } from '@angular/router';
+import { Paginator } from '../../../../shared/components/paginator/paginator';
 
 @Component({
   selector: 'app-policy-list',
@@ -25,7 +26,8 @@ import { RouterLink } from '@angular/router';
     ConfirmDialog,
     ToastModule,
     DialogAddPolicy,
-    RouterLink
+    RouterLink,
+    Paginator,
   ],
   providers: [ConfirmationService, MessageService],
 
@@ -40,8 +42,20 @@ export class PolicieList {
 
   isVisibleDialog = false;
 
-  policies$ = this.sharedService.refreshTrigger$$.pipe(
-    switchMap(() => this.policiesService.getAllPolicies()),
+  totalPage = 0;
+
+  // policies$ = this.sharedService.refreshTrigger$$.pipe(
+  //   switchMap(() => this.policiesService.getAllPolicies()),
+  // );
+
+  policies$ = combineLatest([
+    this.sharedService.paginatorTriggered$$,
+    this.sharedService.refreshTrigger$$,
+  ]).pipe(
+    switchMap(([page]) => this.policiesService.getAllPolicies(page)),
+    tap((apiPolicyResponse: PolicyListResponse) => {
+      this.totalPage = apiPolicyResponse.total_pages;
+    }),
   );
 
   confirmDelete(event: Event, policy: Policy) {

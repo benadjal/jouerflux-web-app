@@ -29,7 +29,7 @@
     }
     @if (policies$ | async; as policies) {
       <p-select
-        [options]="policies"
+        [options]="policies.items"
         optionLabel="name"
         optionValue="id"
         [filter]="true"
