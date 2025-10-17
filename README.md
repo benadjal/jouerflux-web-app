@@ -1,59 +1,65 @@
-# JouerfluxWebApp
+# JouerFlux Web App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.3.
+Frontend Angular application for managing **Firewalls**, **Policies**, and **Rules**.  
+This project consumes the [JouerFlux Mini API backend](https://github.com/0x726974636879/jouerflux-mini) and provides a responsive UI built with **Angular**, **PrimeNG**, **PrimeFlex**, and **RxJS**.
 
-## Development server
+---
 
-To start a local development server, run:
+## Features
 
-```bash
-ng serve
-```
+**Firewall, policy and rule Management**
+  - View paginated list of each entity  
+  - Create a new entity through a dialog form  
+  - View detailed information about a specific firewall  
+  - Delete an existing entity with confirmation  
+  - Client-side search and filtering (across all pages)  
+  - Local pagination and reactive data updates using RxJS streams  
+  - Responsive design
+  - Notification after each actions (create, delete, error and cancel)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
+**Developer Experience**
+  - ESLint + Prettier integration for linting and formatting  
+  - Modular Angular architecture with clear folder structure  
+  - Reactive data handling with RxJS 
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
+## 🚀 Setup Instructions
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Run the backend
 
-```bash
-ng generate --help
-```
+Clone and start the backend API first
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Run this project
 
 ```bash
-ng test
+git clone https://github.com/benadjal/jouerflux-web-app.git
+
+cd jouerflux-web-app
+
+npm install
+
+npm run start
 ```
 
-## Running end-to-end tests
+Access the application at 
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```yaml
+http://localhost:4200/
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Tech Stack
+- Angular 20
+- PrimeNG 20 + PrimeFlex 4
+- RxJS
+- TypeScript
+- ESLint + Prettier
 
-## Additional Resources
+## Assumptions & Design Choices
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- PrimeNG + PrimeFlex for a nice and responsive UI .
+- Modular architecture : Each feature (firewall, policies, rules) is isolated under src/app/features/ with its own components, models, and services.
+- Shared services : shared-service.ts handles refresh triggers (e.g., reload lists after CRUD actions) to get updated data
+- ESLint + Prettier :Used to enforce consistent code style and linting across the project.
+- Implemented client-side filtering and pagination using RxJS operators after fetching all required data from the API.
