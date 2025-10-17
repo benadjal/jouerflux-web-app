@@ -7,7 +7,6 @@ import {
   of,
   shareReplay,
   switchMap,
-  tap,
 } from 'rxjs';
 import { Rule, RuleListResponse } from '../models/rule.model';
 import { environment } from '../../../../environments/environment';
@@ -52,7 +51,6 @@ export class RuleService {
         ),
       ),
     ),
-    tap((res) => console.log(res)),
     shareReplay(1),
   );
 }
