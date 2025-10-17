@@ -56,7 +56,7 @@ http://localhost:4200/
 - TypeScript
 - ESLint + Prettier
 
-## Assumptions & Design Choices
+## Design Choices
 
 - PrimeNG + PrimeFlex for a nice and responsive UI .
 - Modular architecture : Each feature (firewall, policies, rules) is isolated under src/app/features/ with its own components, models, and services.
