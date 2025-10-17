@@ -1,4 +1,11 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -18,6 +25,7 @@ import { PolicyService } from '../../services/policy-service';
 import { AsyncPipe } from '@angular/common';
 import { Firewall } from '../../../firewall/models/firewall.model';
 import { SelectModule } from 'primeng/select';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-policy-create-form-dialog',
@@ -29,14 +37,31 @@ import { SelectModule } from 'primeng/select';
     MessageModule,
     AsyncPipe,
     FormsModule,
-    SelectModule
+    SelectModule,
   ],
   templateUrl: './policy-create-form-dialog.html',
-  styleUrl: './policy-create-form-dialog.scss',
+  styleUrls: ['./policy-create-form-dialog.scss'],
 })
-export class DialogAddPolicy {
+export class DialogAddPolicy implements OnInit {
   @Input() isVisibleDialog = false;
+  @Input() firewallInput!: Firewall;
+
   @Output() triggerCloseDialog = new EventEmitter();
+
+  ngOnInit() {
+    if (this.firewallInput) {
+      this.firewall$ = this.firewallService.allFirewallsWithoutPagination$.pipe(
+        map((firewalls) =>
+          firewalls.filter((fw) => fw.id === this.firewallInput!.id),
+        ),
+      );
+      this.policyForm.patchValue({
+        firewall_id: this.firewallInput.id.toString(),
+      });
+    } else {
+      this.firewall$ = this.firewallService.allFirewallsWithoutPagination$;
+    }
+  }
 
   firewallService = inject(FirewallService);
   policyService = inject(PolicyService);
@@ -51,14 +76,18 @@ export class DialogAddPolicy {
   policyForm = new FormGroup({
     name: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
+      validators: [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(50),
+      ],
     }),
     firewall_id: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required],
     }),
   });
-  
+
   createPolicie() {
     this.policyForm.markAllAsTouched();
     if (this.policyForm.invalid) return;
