@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Firewall, FirewallDetail, FirewallListResponse } from '../models/firewall.model';
-import { map, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -10,15 +10,13 @@ import { environment } from '../../../../environments/environment';
 export class FirewallService {
   http = inject(HttpClient);
 
-  getAllFirewalls(): Observable<Firewall[]> {
+  getAllFirewalls(pageNumber : number): Observable<FirewallListResponse> {
     return this.http
-      .get<FirewallListResponse>(`${environment.apiURL}/firewalls`)
-      .pipe(
-        map(
-          (firewallResponseApi: FirewallListResponse) =>
-            firewallResponseApi.items,
-        ),
-      );
+      .get<FirewallListResponse>(`${environment.apiURL}/firewalls`,{
+        params : {
+          page : pageNumber
+        }
+      })
   }
 
   createFirewall(fireWall: Omit<Firewall, 'id'>): Observable<Firewall> {

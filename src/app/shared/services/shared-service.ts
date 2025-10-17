@@ -7,6 +7,16 @@ import { BehaviorSubject } from 'rxjs';
 export class SharedService {
   refreshTrigger$$ = new BehaviorSubject<void>(undefined);
 
+  paginatorTriggered$$ = new BehaviorSubject<number>(0);
+
+  pageChanged(pageSelected: number) {
+    this.paginatorTriggered$$.next(pageSelected);
+  }
+
+  pageInit() {
+    this.paginatorTriggered$$.next(0);
+  }
+
   refresh() {
     this.refreshTrigger$$.next();
   }

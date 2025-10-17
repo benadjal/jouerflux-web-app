@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FirewallService } from '../../services/firewall-service';
 import { AsyncPipe } from '@angular/common';
-import { switchMap } from 'rxjs';
+import { combineLatest, switchMap, tap } from 'rxjs';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
@@ -10,9 +10,10 @@ import { DialogAddFirewall } from '../firewall-create-form-dialog/firewall-creat
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Firewall } from '../../models/firewall.model';
+import { Firewall, FirewallListResponse } from '../../models/firewall.model';
 import { SharedService } from '../../../../shared/services/shared-service';
 import { RouterLink } from '@angular/router';
+import { Paginator } from '../../../../shared/components/paginator/paginator';
 
 @Component({
   selector: 'app-firewall-list',
@@ -25,7 +26,8 @@ import { RouterLink } from '@angular/router';
     DialogAddFirewall,
     ConfirmDialog,
     ToastModule,
-    RouterLink
+    RouterLink,
+    Paginator,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './firewall-list.html',
@@ -42,8 +44,16 @@ export class FirewallList {
 
   messageService = inject(MessageService);
 
-  firewallList$ = this.sharedService.refreshTrigger$$.pipe(
-    switchMap(() => this.fireWallService.getAllFirewalls()),
+  totalPage = 0;
+  
+  firewallList$ = combineLatest([
+    this.sharedService.paginatorTriggered$$,
+    this.sharedService.refreshTrigger$$,
+  ]).pipe(
+    switchMap(([page]) => this.fireWallService.getAllFirewalls(page)),
+    tap((apiFirewallResponse: FirewallListResponse) => {
+      this.totalPage = apiFirewallResponse.total_pages;
+    }),
   );
 
   confirmDelete(event: Event, fireWall: Firewall) {

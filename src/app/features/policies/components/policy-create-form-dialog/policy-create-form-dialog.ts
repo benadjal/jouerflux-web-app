@@ -44,7 +44,7 @@ export class DialogAddPolicy {
 
   messageService = inject(MessageService);
 
-  firewall$ = this.firewallService.getAllFirewalls();
+  firewall$ = this.firewallService.getAllFirewalls(0);
 
   filteredFirewalls: Firewall[] = [];
 
