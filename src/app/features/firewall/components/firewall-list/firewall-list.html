@@ -8,11 +8,12 @@
         <p class="text-lg font-bold text-4xl">Firewalls</p>
       </div>
 
-      <div class="">
+      <div>
         <p-button
           label="New Firewall"
           severity="primary"
           size="large"
+          data-cy="add-firewall"
           (onClick)="showDialog()"
         />
       </div>
@@ -24,6 +25,7 @@
         class="p-inputtext p-component w-full mb-3"
         placeholder="Rechercher un firewall (Nom ou ID)"
         formControlName="text"
+        data-cy="firewall-search-bar"
       />
     </div>
 
@@ -54,12 +56,14 @@
                   icon="pi pi-search-plus"
                   severity="secondary"
                   rounded
+                  data-cy="firewall-detail-button"
                   [routerLink]="['/firewall', firewall.id]"
                 />
                 <p-button
                   icon="pi pi-trash"
                   severity="danger"
                   rounded
+                  data-cy="firewall-delete-button"
                   (click)="confirmDelete($event, firewall)"
                 />
               </td>

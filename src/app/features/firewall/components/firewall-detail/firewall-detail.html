@@ -5,11 +5,7 @@
       style="max-width: 60rem"
     >
       <h3 class="text-2xl font-bold">Détails Firewall</h3>
-      <p-button
-        label="Modifier"
-        disabled
-        class="p-button-sm"
-      ></p-button>
+      <p-button label="Modifier" disabled class="p-button-sm"></p-button>
     </div>
 
     <div
@@ -19,7 +15,9 @@
       <div
         class="col-12 sm:col-4 flex flex-column gap-1 justify-content-center align-items-center border-round p-3 max-w-12rem bg-primary-400"
       >
-        <small class="font-bold text-center">Nom du firewall</small>
+        <small class="font-bold text-center" data-cy="firewall-detail-button"
+          >Nom du firewall</small
+        >
         <p class="text-3xl font-semibold text-center">{{ firewall.name }}</p>
       </div>
 

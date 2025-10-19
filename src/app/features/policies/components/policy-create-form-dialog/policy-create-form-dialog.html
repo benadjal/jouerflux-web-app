@@ -50,6 +50,14 @@
           </div>
         </ng-template>
       </p-select>
+      @if (
+        policyForm.controls.firewall_id.invalid &&
+        (policyForm.controls.firewall_id.touched || policyForm.controls.firewall_id.dirty)
+      ) {
+        @if (policyForm.controls.firewall_id.hasError("required")) {
+          <small class="text-red-500">Selectionnez un firewall</small>
+        }
+      }
     }
 
     <div class="flex justify-content-end gap-2 mt-2">

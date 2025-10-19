@@ -45,7 +45,16 @@
             <div>{{ selectedOption.name }}</div>
           </div>
         </ng-template>
-      </p-select>
+      </p-select> 
+
+            @if (
+        ruleForm.controls.policy_id.invalid &&
+        (ruleForm.controls.policy_id.touched || ruleForm.controls.policy_id.dirty)
+      ) {
+        @if (ruleForm.controls.policy_id.hasError("required")) {
+          <small class="text-red-500">Selectionnez une politique</small>
+        }
+      }
     }
 
     <div class="flex justify-content-end gap-2 mt-2">
