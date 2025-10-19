@@ -49,6 +49,19 @@ Access the application at
 http://localhost:4200/
 ```
 
+### Run tests
+
+- To run cypress tests in a dedicated browser
+```yaml
+npm run cypress:open
+```
+
+- To run cypress tests in the console
+
+```yaml
+npm run cypress:run
+```
+
 ## Tech Stack
 - Angular 20
 - PrimeNG 20 + PrimeFlex 4
